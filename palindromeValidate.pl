@@ -9,14 +9,27 @@
 
 use strict;
 use warnings;
-use File::Slurp;
 
-my $forward = read_file( 'shortPalindrome.txt' );
+my $forward;
+
+open(my $FH, '<', 'shortPalindrome.txt') or die "Error: $!";
+while( <$FH> ) {
+my $line = $_;
+chomp($line);
+$forward .= $line;
+}
+close $FH or die "Error: $!";
+
+######## Make $forward lower case ###################
+$forward = lc($forward);
+#####################################################
+########### Remove punctuation and spaces ###########
+$forward =~ s/\s|…|\’|\”|\“|[[:punct:]]//g;
+#####################################################
 my $reverse = reverse $forward;
 
-print $forward, "\n";
+print $forward, "\n\n";
 print $reverse, "\n";
-
 
 if ($forward eq $reverse) { 
 	print "It's a palindrome!\n";
